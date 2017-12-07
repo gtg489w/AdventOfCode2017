@@ -77,9 +77,8 @@ function reverseTree() {
 	
 	findLeaves();
 	calculateWeights(root);
-	findUnbalanced(root);
-	console.log(root);
-	console.log(nodes['bvrxeo'])
+	let unbalanced = findUnbalanced(root);
+	calculateBalancingWeight(unbalanced);
 }
 
 function findLeaves() {
@@ -102,5 +101,47 @@ function calculateWeights(node) {
 }
 
 function findUnbalanced(node) {
+	let aCount = 1;
+	let bCount = 0;
+	let a = node.children[0];
+	var b;
+	for(var i=1; i<node.children.length; i++) {
+		let n = node.children[i];
+		if(!b) {
+			if(n.totalWeight != a.totalWeight) {
+				b = n;
+			} else {
+				aCount++;
+			}
+		} else {
+			if(n.totalWeight == a.totalWeight) {
+				aCount++;
+			} else {
+				bCount++;
+			}
+		}
+	}
+	if(!b) {
+		return node;
+	} else {
+		if(aCount > bCount) {
+			return findUnbalanced(b);
+		} else {
+			return findUnbalanced(a);
+		}
+	}
+}
 
+function calculateBalancingWeight(node) {	
+	// find the weight it should be
+	var sibling;
+	node.parent.children.forEach((s) => {
+		if(!sibling && s != node) {
+			sibling = s;
+		}
+	});
+
+	// calc!
+	let targetWeight = node.weight - (node.totalWeight - sibling.totalWeight);
+	console.log('balancing weight: ' + targetWeight);
 }
