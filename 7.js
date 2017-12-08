@@ -32,7 +32,7 @@ function parseData(data) {
 	});
 
 	makeTree();
-} 
+}
 
 function findParent(name) {
 	var parent;
