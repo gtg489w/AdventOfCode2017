@@ -93,8 +93,6 @@ function getDistance() {
         ns -= reduction;
         nwse += reduction;
     }
-    // NW + SW + (N||S) => NW + NW
-    // NE + SE + (N||S) => 
     return Math.abs(ns) + Math.abs(nesw) + Math.abs(nwse);
 }
 
